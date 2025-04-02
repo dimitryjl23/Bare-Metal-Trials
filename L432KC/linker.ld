@@ -3,7 +3,7 @@ ENRTY(Reset_Handler)  /* Specifies entry point of the program */
 MEMORY
 {
 	FLASH (rx)  : ORIGIN = 0x08000000, LENGTH = 256K /* Origin + Length of Flash Memory Region */
-	SRAM  (rwx) : ORIGIN = 0x20000000, LENGTH = 48K  /* Origin + Lengh of SRAM Region */
+	SRAM  (rwx) : ORIGIN = 0x20000000, LENGTH = 64K  /* Origin + Lengh of SRAM Region */
 }
 
 

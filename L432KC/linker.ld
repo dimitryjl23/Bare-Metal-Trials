@@ -27,7 +27,15 @@ SECTIONS
 			
 			. = ALIGN(8)
 		} > FLASH            /* Text stored in Flash Segment*/
-	
+			
+		.rodata :           /* Read only data. Could also be placed in Text */
+		{
+			. = ALIGN(8);
+			*(.rodata)
+
+			. = ALIGN(8)
+		} > FLASH
+        
 		.data :
 		{
 			. = ALIGN(8);    /* Align start of data segment to 8 byte boundary */
@@ -39,14 +47,8 @@ SECTIONS
 			. = ALIGN (8);  
 			_edata = .;      /* Global symbol located at end of segment */
 		} >SRAM > AT FLASH   /* Load into Flash but copy the data into SRAM */
-		
-		.rodata :           /* Read only data. Could also be placed in Text */
-		{
-			. = ALIGN(8);
-			*(.rodata)
-			. = ALIGN(8)
-		} > FLASH
- 
+        _sidata = LOADADDR(.data) /* We need the Flash address of data to copy to RAM */
+
 		.bss :              /* .bss for uninit global + static vars */
 		{ 
 			. = ALIGN(8);

@@ -20,7 +20,7 @@ SECTIONS
 			KEEP(*(.isr_vector))
 		} > FLASH
 
-		.text :               /* Text segment placed at start of Flash Memory*/
+		.text :              
 		{
 			. = ALIGN(8);
 			*(.text)         /* Coallesce all input text segments */

@@ -31,7 +31,7 @@ void delay(int val){
 int main(){
 	
 	init_gpio();
-    GPIO_B->ODR |= (1U << 3);
+	GPIO_B->ODR |= (1U << 3);
 	while(1) {
 		blink_led();
 		delay(500000);

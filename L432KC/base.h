@@ -4,6 +4,9 @@
 //IO Region Base Address
 #define IO_BASE (0x40000000)
 
+//TODO THESE WERE PORTED FROM ANOTHER MICRO SO ADDRESS MAY BE INACCURATE
+//ALSO NEED TO RENAME VARIABLE NAMES
+
 // APB1 Bus------------------------------------------
 #define APB1_OFFSET (0x0)
 #define APB1_BASE (IO_BASE + APB1_OFFSET)

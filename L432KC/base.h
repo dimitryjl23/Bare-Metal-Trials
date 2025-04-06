@@ -11,18 +11,16 @@
 #define APB1_OFFSET (0x0)
 #define APB1_BASE (IO_BASE + APB1_OFFSET)
 
+#define USART2_OFFSET (0x00004400)
+#define USART2_BASE (APB1_BASE + USART2_OFFSET)
+
 // APB2 Bus------------------------------------------
 #define APB2_OFFSET (0x00010000)
 #define APB2_BASE (IO_BASE + APB2_OFFSET)
 
-#define USART1_OFFSET (0x00001000)
-#define USART1_BASE (APB2_BASE + USART1_OFFSET)
-
 // AHB1 Bus------------------------------------------
 #define AHB1_OFFSET (0x00020000)
 #define AHB1_BASE (IO_BASE + AHB1_OFFSET)
-
-
 
 // AHB2 Bus-----------------------------------------
 #define AHB2_OFFSET (0x08000000) // Real offset is 0x4002440 but these are reserved so starting at GPIO for simplicity

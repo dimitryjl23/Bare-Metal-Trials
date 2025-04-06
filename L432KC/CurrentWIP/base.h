@@ -26,8 +26,8 @@
 #define AHB2_OFFSET (0x08000000) // Real offset is 0x4002440 but these are reserved so starting at GPIO for simplicity
 #define AHB2_BASE (IO_BASE + AHB2_OFFSET)
 
-#define GPIOA_OFFSET (0x0400)
-#define GPIOA_BASE (AHB2_BASE + GPIOA_OFFSET)
+#define GPIOB_OFFSET (0x0400)
+#define GPIOB_BASE (AHB2_BASE + GPIOB_OFFSET)
 
 
 // RCC ----------------------------------------------

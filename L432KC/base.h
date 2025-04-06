@@ -20,15 +20,17 @@
 #define AHB1_BASE (IO_BASE + AHB1_OFFSET)
 
 
-#define GPIOA_OFFSET (0x0)
-#define GPIOA_BASE (AHB1_BASE + GPIOA_OFFSET)
 
 // AHB2 Bus-----------------------------------------
-#define AHB2_OFFSET (0x20000000)
+#define AHB2_OFFSET (0x08000000) // Real offset is 0x4002440 but these are reserved so starting at GPIO for simplicity
 #define AHB2_BASE (IO_BASE + AHB2_OFFSET)
 
+#define GPIOA_OFFSET (0x0400)
+#define GPIOA_BASE (AHB2_BASE + GPIOA_OFFSET)
+
+
 // RCC ----------------------------------------------
-#define RCC_OFFSET (0x00023800)
+#define RCC_OFFSET (0x00021000)
 #define RCC_BASE (IO_BASE + RCC_OFFSET)
 
 #endif /* BASE_H */

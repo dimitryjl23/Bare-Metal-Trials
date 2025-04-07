@@ -1,0 +1,37 @@
+#ifndef BASE_H
+#define BASE_H
+
+//IO Region Base Address
+#define IO_BASE (0x40000000)
+
+// APB1 Bus------------------------------------------
+#define APB1_OFFSET (0x0)
+#define APB1_BASE (IO_BASE + APB1_OFFSET)
+
+#define USART2_OFFSET (0x00004400)
+#define USART2_BASE (APB1_BASE + USART2_OFFSET)
+
+// APB2 Bus------------------------------------------
+#define APB2_OFFSET (0x00010000)
+#define APB2_BASE (IO_BASE + APB2_OFFSET)
+
+// AHB1 Bus------------------------------------------
+#define AHB1_OFFSET (0x00020000)
+#define AHB1_BASE (IO_BASE + AHB1_OFFSET)
+
+// AHB2 Bus-----------------------------------------
+#define AHB2_OFFSET (0x08000000) // Real offset is 0x4002440 but these are reserved so starting at GPIO for simplicity
+#define AHB2_BASE (IO_BASE + AHB2_OFFSET)
+
+#define GPIOB_OFFSET (0x0400)
+#define GPIOB_BASE (AHB2_BASE + GPIOB_OFFSET)
+
+
+// RCC ----------------------------------------------
+#define RCC_OFFSET (0x00021000)
+#define RCC_BASE (IO_BASE + RCC_OFFSET)
+
+//SYSTICK--------------------------------------------
+#define SYSTICK_BASE (0xE000E010)
+
+#endif /* BASE_H */

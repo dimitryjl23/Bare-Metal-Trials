@@ -31,15 +31,6 @@ void disable_interrupt(uint32_t IRQ_num){
 	NVIC_ICER |= (1U << IRQ_num); 
 }
 
-#if 0
-void set_systick_interrupt_priority(int priority){
-	uint32_t reg_index = SysTick_IRQn / 4;     // Each IPR reg holds 4 interrupts
-	uint32_t shift = (SysTick_IRQn % 4) * 8;   // Each interrupt register hold 8 bits
-	//*((volatile uint8_t*)(&NVIC_IPR[reg_idx] + 1)) = (priority << shift);
-}
-
-#endif 
-
 void init_tim2(){
 	
 	// Enable Clock for TIM2
@@ -53,16 +44,16 @@ void init_tim2(){
 	 * Goal UEV of 1 Hz
 	 * Bus_Clock = APB1_Bus Freq = 16Mhz
 	 * 
-	 * To achieve 1Hz we Prescaler = 15999, Period = 999
+	 * To achieve 1Hz we Prescaler = 3999, Period = 999
 	 *
-	 * 16,000,000 / ((15999 + 1)(999+1)) = 1 Hz
+	 * 4,000,000 / ((3999 + 1)(999+1)) = 1 Hz
 	 */
 
 	// Set Auto Reload Register 
 	TIM2->ARR = 999;
 
 	// Set Prescaler 
-	TIM2->PSC = 15999;
+	TIM2->PSC = 3999;
 	
 	// Set TIM2 COUNT
 	TIM2->CNT = 0;

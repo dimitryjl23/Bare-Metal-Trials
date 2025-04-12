@@ -46,7 +46,7 @@ void init_usart(){
 	// Configure Baud Rate... for some reason we only see output when terminal baud is 14400
 	// Also I am pretty sure the default clock is 4Mhz, need to investigate.... but it works!
 	//USART2->BRR = (4000000 + (9600 / 2U)) / 9600;
-	USART2->BRR = (16000000/9600);
+	USART2->BRR = (4000000/9600);
 	
 	// Enable Transmitter and UART;
 	USART2->CR1 |= (0x00000008 | 0x00000001);

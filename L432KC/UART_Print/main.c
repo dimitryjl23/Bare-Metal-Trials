@@ -43,10 +43,8 @@ void init_usart(){
 	// Enable USART2 RCC 
 	RCC->APB1_ENR |= (1U << 17);
 			
-	// Configure Baud Rate... for some reason we only see output when terminal baud is 14400
-	// Also I am pretty sure the default clock is 4Mhz, need to investigate.... but it works!
-	//USART2->BRR = (4000000 + (9600 / 2U)) / 9600;
-	USART2->BRR = (16000000/9600);
+	// Configure Baud Rate
+	USART2->BRR = (4000000/9600);
 	
 	// Enable Transmitter and UART;
 	USART2->CR1 |= (0x00000008 | 0x00000001);
@@ -83,9 +81,9 @@ void init_tim2(){
 	 * Goal UEV of 1 Hz
 	 * Bus_Clock = APB1_Bus Freq = 16Mhz
 	 * 
-	 * To achieve 1Hz we Prescaler = 15999, Period = 999
+	 * To achieve 1Hz we Prescaler = 3999, Period = 999
 	 *
-	 * 16,000,000 / ((15999 + 1)(999+1)) = 1 Hz
+	 * 4,000,000 / ((3999 + 1)(999+1)) = 1 Hz
 	 */
 
 	// Enable Clock for TIM2
@@ -95,7 +93,7 @@ void init_tim2(){
 	TIM2->ARR = 999;
 
 	// Set Prescaler 
-	TIM2->PSC = 15999;
+	TIM2->PSC = 3999;
 	
 	// Set TIM2 COUNT
 	TIM2->CNT = 0;

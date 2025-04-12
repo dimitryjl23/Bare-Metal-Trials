@@ -12,5 +12,7 @@ uart_write.elf : main.o startup.o
 load:
 	openocd -f /opt/homebrew/share/openocd/scripts/board/st_nucleo_l4.cfg
 
+flash: 
+	openocd -s /opt/homebrew/share/openocd/scripts/interface/stlink.cfg -f /opt/homebrew/share/openocd/scripts/board/st_nucleo_l4.cfg -c "program uart_write.elf verify reset exit"
 clean:
 	rm -f *.o *.elf *.map

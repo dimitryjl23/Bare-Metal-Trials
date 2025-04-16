@@ -69,6 +69,49 @@ placed in memory.
             KEEP(*(.isr_vector))
         } > FLASH 
 ```
-The first part of a section definition is the name. Here the first section of program in Flash memory\
-should be the vector table which we call denote by ".vectors"\
+The first part of a section definition is the name. 
+Here the first section of program in Flash memory should be the vector table.\
+We label this .vectors. Linkers usually default to placing this at the start of Flash so you may"\
+see other linker script which do not do this. It is good practice to be explicit though.\
+
+Within our section we  have 
+```
+ KEEP(*(.isr_vector))
+```
+This keep symbol ensures that specified sections or symbols are not optimized out by the linker.\
+In this case we want to ensure that the .isr\_vector section will not be optimized out.
+
+```
+> FLASH
+```
+This Section tells us where the section should be placed. In this example we place our vector table in flash memory.
+
+```
+
+.data :
+		{
+			. = ALIGN(8);    /* Align start of data segment to 8 byte boundary */
+			_sdata =  .;     /* Global Variable located at start of data segment */
+			
+			*(.data)         /* Coallesce all data input data segment */
+			*(.data.*)       /* Coallesce all .data sub-setions (e.g, .data.foo, .data.bar) */
+		
+			. = ALIGN (8);  
+			_edata = .;      /* Global symbol located at end of segment */
+		} > SRAM AT > FLASH   /* Load into Flash but copy the data into SRAM */
+```
+Above is we have a snippet describing the .data section. This section contains initialized global and static variables.\
+The ALIGN(8) tell us to align the start data section on an 8 byte boundary. Following that we have \_sdata which is a global variable which points to the start of the data segement. We also have \_edata which points to the end. These will be useful in the startup script.\
+
+```
+ *(.data)
+```
+Each .c program will have a data section. If we are linking multipled files the \*() notation tells the the linker to coallesce all the data segments of each program into this seciont.  
+
+```
+> SRAM AT > FLASH
+```
+
+Lastly SRAM AT> FLASH tells the linker that we are we want to store the data in FLASH but load it into SRAM on boot. 
+
 

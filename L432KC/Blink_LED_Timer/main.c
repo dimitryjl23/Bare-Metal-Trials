@@ -42,7 +42,7 @@ void init_tim2(){
 	 * UEV = (Bus_Clock) / ((Prescaler + 1)(Period + 1)) 
 	 * 
 	 * Goal UEV of 1 Hz
-	 * Bus_Clock = APB1_Bus Freq = 16Mhz
+	 * Bus_Clock = APB1_Bus Freq = 4Mhz
 	 * 
 	 * To achieve 1Hz we Prescaler = 3999, Period = 999
 	 *

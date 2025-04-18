@@ -17,9 +17,9 @@ uint32_t vector_tb1[] __attribute__((section(".isr_vector"))) = {
 	(uint32_t) &Reset_Handler,
 	(uint32_t) &Default_Handler,
 	(uint32_t) &Default_Handler,
-    (uint32_t) &Default_Handler,
-    (uint32_t) &Default_Handler,
-    (uint32_t) &Default_Handler,
+	(uint32_t) &Default_Handler,
+	(uint32_t) &Default_Handler,
+	(uint32_t) &Default_Handler,
 	(uint32_t) &Default_Handler,
 	(uint32_t) &Default_Handler, 
 	(uint32_t) &Default_Handler,
@@ -28,9 +28,7 @@ uint32_t vector_tb1[] __attribute__((section(".isr_vector"))) = {
 	(uint32_t) &Default_Handler,
 	(uint32_t) &Default_Handler,
 	(uint32_t) &Default_Handler,
-	(uint32_t) &Default_Handler,	// 15
-	(uint32_t) &Default_Handler,
-    (uint32_t) &Default_Handler,
+	(uint32_t) &Default_Handler,    // 15
 	(uint32_t) &Default_Handler,
 	(uint32_t) &Default_Handler,
 	(uint32_t) &Default_Handler,
@@ -57,7 +55,9 @@ uint32_t vector_tb1[] __attribute__((section(".isr_vector"))) = {
 	(uint32_t) &Default_Handler,
 	(uint32_t) &Default_Handler,
 	(uint32_t) &Default_Handler,
-	(uint32_t) &Tim2_Handler		// 44
+	(uint32_t) &Default_Handler,
+	(uint32_t) &Default_Handler,
+	(uint32_t) &Tim2_Handler        // 44
 };
 
 void Default_Handler(){

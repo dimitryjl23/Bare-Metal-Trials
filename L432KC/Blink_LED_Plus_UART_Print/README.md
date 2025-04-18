@@ -101,7 +101,7 @@ This Section tells us where the section should be placed. In this example we pla
 		} > SRAM AT > FLASH   /* Load into Flash but copy the data into SRAM */
 ```
 Above is we have a snippet describing the .data section. This section contains initialized global and static variables.\
-The ALIGN(8) tell us to align the start data section on an 8 byte boundary. Following that we have \_sdata which is a global variable which points to the start of the data segement. We also have \_edata which points to the end. These will be useful in the startup script.\
+The ALIGN(8) tell us to align the start data section on an 8 byte boundary. Following that we have \_sdata which is a global variable which points to the start of the data segement. We also have \_edata which points to the end. These will be useful in the startup script.
 
 ```
  *(.data)
@@ -139,8 +139,8 @@ uint32_t vector_tb1[] __attribute__((section(".isr_vector"))) = {
     (uint32_t) &Tim2_Handler
 ```
 
-Here we define our interrupt vector table. The first entry contains the initial address of the stack pointer. This is because the first entry of the vector table is at the start of flash. On boot this value will be stored in MSP register which holds the address of the top of the stack.\
-We also define add the locations of the Reset\_Handler and Tim2\_Handler. 
+Here we define our interrupt vector table. The first entry contains the initial address of the stack pointer. This is because the first entry of the vector table is at the start of flash. On boot this value will be stored in MSP register which holds the address of the top of the stack. Subsequent entries contain the addresses of the ISR routine for each entry.
+Here we add the locations for the Reset\_Handler and the Tim2\_Handler which have vector table indexes of 1 and 44. It is important to add the correct routines at the correct indices so the right ISR runs. For example, when the reset interrupt is fired, the M4-cortex will always run the interrupt located at vector_tb1[1], and when a Timer2 Interrupt is fired the M4-cortex will run the ISR located at index 44. This information could be found in stm32l4xx.h. 
 
 ```
 	uint32_t data_size = ((uint32_t)&_edata - (uint32_t)&_sdata);

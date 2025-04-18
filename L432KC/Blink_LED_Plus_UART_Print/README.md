@@ -114,4 +114,58 @@ Each .c program will have a data section. If we are linking multipled files the 
 
 Lastly SRAM AT> FLASH tells the linker that we are we want to store the data in FLASH but load it into SRAM on boot. 
 
+Startup.c
+
+Next we have a simple implentation of a startup script. (Not to be confused with a bootloader)
+In my startup script I define the Reset_Handler() IRQ, the interrupt vector table, zero out the .bss section and copy the .data sections from flash to SRAM. 
+
+
+```
+extern uint32_t _estack;
+extern uint32_t _sdata;
+extern uint32_t _edata;
+extern uint32_t _sbss;
+extern uint32_t _ebss;
+extern uint32_t _sidata;
+```
+
+The above are variable we defined in our linker script. These variables are  locationed in Flash memory in the order they were defined. By getting the address of these variables we can get the location of the various sections in flash. For example, in our linker script we define \_sdata symbol at the start of the data section in our linker script. In the linker script these are symbols but when we access using the extern keyword in startup.c we tread it as a variable. This means the  address of the variable tells us where the start of the data section is in flash. These will be useful for opertations we see later.
+```
+uint32_t vector_tb1[] __attribute__((section(".isr_vector"))) = {
+	(uint32_t) &_estack,
+	(uint32_t) &Reset_Handler,
+	(uint32_t) &Default_Handler,
+    ...
+    (uint32_t) &Tim2_Handler
+```
+
+Here we define our interrupt vector table. The first entry contains the initial address of the stack pointer. This is because the first entry of the vector table is at the start of flash. On boot this value will be stored in MSP register which holds the address of the top of the stack.\
+We also define add the locations of the Reset\_Handler and Tim2\_Handler. 
+
+```
+	uint32_t data_size = ((uint32_t)&_edata - (uint32_t)&_sdata);
+	uint8_t * src = (uint8_t *)&_sidata; /*8 bit pointer for byte by byte copy */
+	uint8_t * dst = (uint8_t *)&_sdata;  /*8 bit pointer for byte by byte copy */
+	//copy data from flash to ram
+	for(uint32_t i = 0; i < data_size; i++){
+		dst[i] = src[i];
+	}	
+	
+	uint32_t bss_size = (uint32_t)&_ebss - (uint32_t)&_sbss;
+	uint8_t * bss_ptr = (uint8_t *)&_sbss;
+	//zero out bss
+	for(uint32_t i = 0; i < bss_size; i++){
+		bss_ptr[i] = 0;
+	}
+```
+In this section of code we use the symbols defined in our linker scrip to copy the .data section to flash and zero out the .bss section one byte at a time. This could also be performed with larger chunks. 
+
+```
+    // enable interupts 
+	asm volatile("cpsie i");	
+
+	//call main 	
+	main();
+```
+This last secion enables global interrupts and calls our main function.
 

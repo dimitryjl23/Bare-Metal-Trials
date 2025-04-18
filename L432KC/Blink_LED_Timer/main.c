@@ -36,7 +36,7 @@ void init_tim2(){
 	// Enable Clock for TIM2
 	RCC->APB1_ENR |= 0x00000001;
 	
-    /*
+	/*
 	 * UEV: Update Event Frequency 
 	 *
 	 * UEV = (Bus_Clock) / ((Prescaler + 1)(Period + 1)) 

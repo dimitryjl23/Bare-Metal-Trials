@@ -72,14 +72,14 @@ void disable_interrupt(uint32_t IRQ_num){
 
 
 void init_tim2(){
-		
-    /*
+
+	/*
 	 * UEV: Update Event Frequency 
 	 *
 	 * UEV = (Bus_Clock) / ((Prescaler + 1)(Period + 1)) 
 	 * 
 	 * Goal UEV of 1 Hz
-	 * Bus_Clock = APB1_Bus Freq = 16Mhz
+	 * Bus_Clock = APB1_Bus Freq = 4Mhz
 	 * 
 	 * To achieve 1Hz we Prescaler = 3999, Period = 999
 	 *
@@ -94,19 +94,19 @@ void init_tim2(){
 
 	// Set Prescaler 
 	TIM2->PSC = 3999;
-	
+
 	// Set TIM2 COUNT
 	TIM2->CNT = 0;
 
 	// Enable TIM2 Interrupts
 	TIM2->DIER |= 0x00000001; 
-	
+
 	// Enable TIM2
 	TIM2->CR1 |= 0x00000001; 	
 }
 
 void Tim2_Handler(void){
-	
+
 	// Toggle the LED
 	GPIO_B->ODR ^= (1U << 3);
 		

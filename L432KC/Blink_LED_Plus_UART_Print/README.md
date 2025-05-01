@@ -1,5 +1,6 @@
-Goal: We blink an LED until the end of time.\
-This is the first iteration of the bare metal programming Trials. I will try my best to explain what I have in these mini projects.
+Goal: We blink a health LED using a timer and print hello world to a console via UART Tx from MCU to a CPU which has a serial terminal. 
+
+Explanation:
 
 Linker Script: linker.ld 
 
@@ -9,7 +10,7 @@ I kept my linker script fairly simple and will walk through and describe each pa
 ```
 ENTRY(Reset_Handler)
 ```
-Line one of our linker script specifies the entry point of our program. This means that after a flash and reset (or just reset if already flahsed) our microcontroller will jump to our Reset_Handler which is defined in our startup code (Startup.c)
+Line one of our linker script specifies the entry point of our program. This means that after a flash and reset (or just reset if already flahsed) our microcontroller will jump to our Reset\_Handler which is defined in our startup code (Startup.c)
 
 
 ```
@@ -72,20 +73,18 @@ placed in memory.
 The first part of a section definition is the name. 
 Here the first section of program in Flash memory should be the vector table.\
 We label this .vectors. Linkers usually default to placing this at the start of Flash so you may"\
-see other linker script which do not do this. It is good practice to be explicit though.\
+see other linker scripts which do not do this. It is good practice to be explicit though.\
 
-Within our section we  have 
+Within our .vector section we encounter the following syntax 
 ```
  KEEP(*(.isr_vector))
 ```
 This keep symbol ensures that specified sections or symbols are not optimized out by the linker.\
 In this case we want to ensure that the .isr\_vector section will not be optimized out.
-
 ```
 > FLASH
 ```
 This Section tells us where the section should be placed. In this example we place our vector table in flash memory.
-
 ```
 
 .data :
@@ -107,18 +106,15 @@ The ALIGN(8) tell us to align the start data section on an 8 byte boundary. Foll
  *(.data)
 ```
 Each .c program will have a data section. If we are linking multipled files the \*() notation tells the the linker to coallesce all the data segments of each program into this seciont.  
-
 ```
 > SRAM AT > FLASH
 ```
-
 Lastly SRAM AT> FLASH tells the linker that we are we want to store the data in FLASH but load it into SRAM on boot. 
 
 Startup.c
 
 Next we have a simple implentation of a startup script. (Not to be confused with a bootloader)
-In my startup script I define the Reset_Handler() IRQ, the interrupt vector table, zero out the .bss section and copy the .data sections from flash to SRAM. 
-
+In my startup script I define the Reset\_Handler() IRQ, the interrupt vector table, zero out the .bss section and copy the .data sections from flash to SRAM. 
 
 ```
 extern uint32_t _estack;
@@ -140,7 +136,7 @@ uint32_t vector_tb1[] __attribute__((section(".isr_vector"))) = {
 ```
 
 Here we define our interrupt vector table. The first entry contains the initial address of the stack pointer. This is because the first entry of the vector table is at the start of flash. On boot this value will be stored in MSP register which holds the address of the top of the stack. Subsequent entries contain the addresses of the ISR routine for each entry.
-Here we add the locations for the Reset\_Handler and the Tim2\_Handler which have vector table indexes of 1 and 44. It is important to add the correct routines at the correct indices so the right ISR runs. For example, when the reset interrupt is fired, the M4-cortex will always run the interrupt located at vector_tb1[1], and when a Timer2 Interrupt is fired the M4-cortex will run the ISR located at index 44. This information could be found in stm32l4xx.h. 
+Here we add the locations for the Reset\_Handler and the Tim2\_Handler which have vector table indexes of 1 and 44. It is important to add the correct routines at the correct indices so the right ISR runs. For example, when the reset interrupt is fired, the M4-cortex will always run the interrupt located at vector\_tb1[1], and when a Timer2 Interrupt is fired the M4-cortex will run the ISR located at index 44. This information could be found in stm32l4xx.h. 
 
 ```
 	uint32_t data_size = ((uint32_t)&_edata - (uint32_t)&_sdata);
@@ -158,8 +154,7 @@ Here we add the locations for the Reset\_Handler and the Tim2\_Handler which hav
 		bss_ptr[i] = 0;
 	}
 ```
-In this section of code we use the symbols defined in our linker scrip to copy the .data section to flash and zero out the .bss section one byte at a time. This could also be performed with larger chunks. 
-
+In this section of code we use the symbols defined in our linker scripr to copy the .data section from flash to sram and zero out the .bss section one byte at a time. This could also be performed with larger chunks.
 ```
     // enable interupts 
 	asm volatile("cpsie i");	

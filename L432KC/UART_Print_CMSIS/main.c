@@ -2,29 +2,10 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include "gpio.h"
-#include "gpio.h"
 #include "nvic.h"
 
-#if 0
-#define GPIO_A  ((GPIO_TypeDef *) GPIOA_BASE)
-#define RCC     ((RCC_TypeDef *) RCC_BASE)
-#define USART2 ((USART_TypeDef*) USART2_BASE)
-#define TIM2 ((TIMER_TypeDef *) TIM2_BASE)
-#endif
 #define TIM2_IRQn 28
 
-
-#if 0
-void init_gpio(){
-	RCC->AHB2_ENR |= (1U << 1);          // Enable GPIO A Clock
-	GPIO_B->OSPEEDR &= ~(3U << (3 *2));  // Clear the bit
-	GPIO_B->OSPEEDR |= (3 << (3 * 2));   // Set the output speed to high
-	GPIO_B->MODER &= ~(3U << (3 * 2));   // Clear the bit 
-	GPIO_B->MODER |= (1U << (3 * 2));    // Set mode to output
-	
-
-}
-#endif
 //PA2 set to AF7 for USART 2 TX
 void init_usart(){
 
@@ -114,14 +95,6 @@ void Tim2_Handler(void){
 	// Clear Update interrupt pending flag
 	if (TIM2->SR & 0x00000001) {
 		TIM2->SR &= ~0x00000001;
-	}
-}
-
-void delay(uint32_t val){
-	uint32_t i = 0;
-	while (i < val){
-		asm("nop");
-		i++;
 	}
 }
 

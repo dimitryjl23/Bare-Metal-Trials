@@ -6,7 +6,4 @@
 
 void init_gpio();
 
-
-
-
 #endif
